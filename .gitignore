@@ -2,9 +2,12 @@
 # *
 
 # Custom files & dirs
-.code-workspace
+TODOS-R.md
+*.code-workspace
+*.Rproj
 .lintr
 _legacy/
+twitterSentiment.csv
 
 # History files
 .Rhistory
