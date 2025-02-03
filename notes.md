@@ -1,4 +1,42 @@
 
+# Expectations:
+- 15min presentation (5min explain motivation, workflow/pipeline, data set/gathering, originality, hypotheses)
+- +5min Q&A
+- Hierarchical/Comparison
+- Story: Improve spending behavior
+- no more than 5 charts
+
+# Twitter (Jan23-Nov24) -> Uhrzeit hinzufügen
+## BeeSwarm
+- (user_retweets)
+- popularity(favorite_count)
+- sentiment_per_daytime > event
+  
+[1] [Jannis]
+- **sentiment_per_week**
+  - sentiment_per_weekday
+  - Explanation:
+    - focus on time series > pos/neg/neutr
+    - macro perspective (time of collection)
+    - micro perspective (quartals/months/days of the week)
+[2] [Sebastián]
+- topic
+- **topic_vs_sentiment**
+  - Israel (Darum?)
+  - Mannheim (Datum?)
+  - Solingen (Datum?)
+  - Ukraine
+  - Explanation:
+    - Faceting pos/neg/neutr <> Topics
+[3] [tba]
+- **word_choice**
+  - [nach topic, nach sentiment]
+  - Explanation:
+    - Scatter
+    - Likert -> Bipolar
+
+---
+
 # GMaps Timeline Data
 ## Data
 - timestamp
