@@ -64,4 +64,3 @@ sf_df_transformed <- st_transform(sf_df, crs = 32633)
 print(sf_df_transformed)
 
 # Display on map
-

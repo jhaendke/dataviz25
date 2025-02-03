@@ -6,7 +6,9 @@ TODOS-R.md
 *.code-workspace
 *.Rproj
 .lintr
+.env
 _legacy/
+data_collect/
 twitterSentiment.csv
 
 # History files
