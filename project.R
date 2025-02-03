@@ -19,7 +19,7 @@ bahn <- read.csv("bahnmails/data_exp1.csv")
 head(bahn)
 colnames(bahn)
 
-# Drop cols
+# Drop cols/rows
 bahn <- bahn %>% 
     #select() %>%
     #slice(1:5)
@@ -27,6 +27,41 @@ bahn <- bahn %>%
 
 # Write bahn to CSV
 write.csv2(bahn, "bahndata_cleaned.csv", row.names = FALSE)
+
+# Clean
+# 1) Remove blanks spaces
+#bahn <- bahn %>%
+#    mutate(across(where(is.character), str_trim))
+
+# 2) Homogenize date format
+#   (-> YYYY-MM-DD)
+bahn <- bahn %>%
+    mutate(date = dmy(date))
+
+# 3) 
+
+# 4) Homogenize stations
+#    Berlin Hbf (tief) = Berlin Hbf
+
+# Augment bahn
+# prio
+# - duration
+# - journey
+# - price per min
+# - booking_day
+# - booking_time
+# - booking_leadtime
+
+# stats
+# - LM leadtime <> price
+
+# optional
+# - city
+
+# - booking_weekday
+# - timestamp_iso8601
+
+
 
 ### Dataset 2 "Twitter"
 twitter <- read.csv("twitterSentiment.csv")

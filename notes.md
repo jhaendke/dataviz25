@@ -45,6 +45,7 @@
 - journey_timeofday ## (morning, midday, afternoon, evening)
 
 - price
+- price per min
 - price per km ##calc
 - price per 100km ##calc
 - price per min delay ##calc
