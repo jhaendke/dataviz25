@@ -2,9 +2,11 @@
 **Data visualizations: Telling stories with R & ggplot**
 
 Course: https://zilinskyjan.github.io/DataViz/
+
 Lectured by [Jan Zilinsky](https://github.com/zilinskyjan), PhD @ Technical University of Munich
 
 Wilkinson, L. (2005). The Grammar of Graphics (2nd ed.). Springer. 
+
 https://doi.org/10.1007/0-387-28695-0
 
 
@@ -61,4 +63,5 @@ Our coding lead to the creation of a side project that I will follow up on: maki
 
 ---
 [Jannis Haendke](https://www.linkedin.com/in/haendke/), Sebastián Aguilar (February 2025)
+
 Liked our work? Drop us a message and let's chat about the next data project!
