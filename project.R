@@ -47,7 +47,8 @@ bahn <- bahn %>%
 # prio
 # - duration
 # - journey
-# - price per min
+# - speed_avg
+# - price_per_min
 # - booking_day
 # - booking_time
 # - booking_leadtime
