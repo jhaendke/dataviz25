@@ -8,7 +8,8 @@ TODOS-R.md
 .lintr
 .env
 _legacy/
-data_collect/
+bahnmails/data_collect/
+bahnmails/data/
 twitterSentiment.csv
 
 # History files
