@@ -19,6 +19,7 @@
     - focus on time series > pos/neg/neutr
     - macro perspective (time of collection)
     - micro perspective (quartals/months/days of the week)
+
 [2] [Sebastián]
 - topic
 - **topic_vs_sentiment**
@@ -28,6 +29,7 @@
   - Ukraine
   - Explanation:
     - Faceting pos/neg/neutr <> Topics
+
 [3] [tba]
 - **word_choice**
   - [nach topic, nach sentiment]
