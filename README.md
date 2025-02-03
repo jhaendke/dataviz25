@@ -1,12 +1,10 @@
 ## World in conflict - A Twitter sentiment analysis
 **Data visualizations: Telling stories with R & ggplot**
 
-Course: https://zilinskyjan.github.io/DataViz/
-
+Course: https://zilinskyjan.github.io/DataViz/<br />
 Lectured by [Jan Zilinsky](https://github.com/zilinskyjan), PhD @ Technical University of Munich
 
-Wilkinson, L. (2005). The Grammar of Graphics (2nd ed.). Springer. 
-
+Wilkinson, L. (2005). The Grammar of Graphics (2nd ed.). Springer.<br />
 https://doi.org/10.1007/0-387-28695-0
 
 
@@ -62,6 +60,5 @@ The value of the guiding literature cannot be overstated (The Grammar of Graphic
 Our coding lead to the creation of a side project that I will follow up on: making data from Deutsche Bahn work for me personally. It is the perfect opportunity to finally dive into talking to LLMs like GPT4 via an API and tinkering around with them in Python. Let's not get religious though, Python and R both have their very own appeal and use case, neither is going anywhere too soon...
 
 ---
-[Jannis Haendke](https://www.linkedin.com/in/haendke/), Sebastián Aguilar (February 2025)
-
+[Jannis Haendke](https://www.linkedin.com/in/haendke/), Sebastián Aguilar (February 2025)<br />
 Liked our work? Drop us a message and let's chat about the next data project!
