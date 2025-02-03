@@ -14,8 +14,19 @@ library(sf)
 #library(ggthemes)
 #library(rnaturalearth)
 
-### Dataset 1 ""
-head()
+### Dataset 1 "Bahn"
+bahn <- read.csv("bahnmails/data_exp1.csv")
+head(bahn)
+colnames(bahn)
+
+# Drop cols
+bahn <- bahn %>% 
+    #select() %>%
+    #slice(1:5)
+    filter(date != "date")
+
+# Write bahn to CSV
+write.csv2(bahn, "bahndata_cleaned.csv", row.names = FALSE)
 
 ### Dataset 2 "Twitter"
 twitter <- read.csv("twitterSentiment.csv")
