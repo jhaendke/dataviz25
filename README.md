@@ -20,10 +20,11 @@ Deciding on a data source has, for once, been a more challenging part. Our first
 
 Next, we stumbled upon data on our very own travel behavior using German rail company "**Deutsche Bahn**". Their booking confirmations deliver adequatly consistent data points on many aspects of a journey and could make us explore relationships between locations, pricing and the individual way of booking that are impossible to gather otherweise. The official API, though extensive, has rather little potential for application on the personal level, so we brainstormed new performance indicators and statistical calculations that might help us better understand and adjust out travel behavior. Unfortunately, the data from HTML emails and PDFs is gathered easiest using an LLM. We have been able to give it a try (see Jupyter notebook) but ultimately decided to go with a case project that does't demand our attention in both R and Python at the same time.  
 
-We decided to decipher a large dataset on **Twitter** postings on issues of security that has been gathered recently in our research. Due its time-series form and high number of observations, we will be able to render insights more relevant to the broader public. It may even hold in predicting sentiment of similiar posts today on similiar topics.
-
+We decided to decipher a large dataset on **Twitter** postings on **issues of security** that has been gathered recently in our research. Due its time-series form and high number of observations, we will be able to render insights more relevant to the broader public. It may even hold in predicting sentiment of similiar posts today on similiar topics.
 
 ###### Collecting
+
+(Which topics exactly were targeted when collecting?)
 
 (How did we collect data)
 

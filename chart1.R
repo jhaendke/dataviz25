@@ -28,6 +28,7 @@ twitter <- twitter %>%
     #filter()
 
 # Anonymize usernames
+# Alternatively: Fake Names library(randomNames) -> randomNames(692) 
 unique_user <- unique(twitter$user)
 user_to_id <- setNames(seq_along(unique_user), unique_user)
 twitter$user_id <- user_to_id[twitter$user] # add col
@@ -45,7 +46,7 @@ length(unique(twitter$date))
 
 # sentiment: 3 levels
 twitter <- twitter %>% 
-    mutate(sentiment = as.factor(sentiment))
+    mutate(sentiment = as.factor(sentiment)) # fct (3)
 unique(twitter$sentiment)
 levels(twitter$sentiment)
 
@@ -53,14 +54,20 @@ levels(twitter$sentiment)
 twitter$date <- as.Date(twitter$date, format = "%m/%d/%Y")
  #timestamp_new <- as.POSIXct(timestamp, format="%Y-%m-%dT%H:%M:%OSZ", tz="CET")
 
-### Write twitter to CSV
+### Save
+# to memory
+twitter_long <- twitter
+# to CSV
 write.csv2(twitter, "case_twitter/twitterSentiment_cleaned.csv", row.names = FALSE)
-# Write shorter dataset
+# to shorter CSV
 twitter_short <- twitter %>%
-    slice(1:3000)
+    slice(1:9000)
 write.csv2(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", row.names = FALSE)
 
 ### Analysis
+
+twitter <- twitter_long
+twitter <- twitter_short
 
 # Sentiment by date
 
@@ -68,18 +75,52 @@ write.csv2(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", row
 #    insert col month
 twitter <- twitter %>% 
     mutate(
-        weekday = wday(date, label = TRUE),
-        month = month(date, label = TRUE)
+        weekday = wday(date, label = TRUE), # ord fct (7)
+        month = month(date, label = TRUE), # ord fct (12)
+        numweek = as.numeric(strftime(date, format = "%U")) # num
     )
-
-
-
 
 # 2) basic stats
 
-# ) count sentiment (pos/neg/neut) per date
+min(twitter$date) # earliest: 2023-01-01
+max(twitter$date) # latest: 2024-11-28
 
-# ) plot 
+
+# ) Count
+# observations per [..]
+counts_date <- twitter %>%
+  group_by(date) %>%
+  summarise(n = n())
+
+counts_weekday <- twitter %>%
+  group_by(weekday) %>%
+  summarise(n = n())
+
+counts_month <- twitter %>%
+  group_by(month) %>%
+  summarise(n = n())
+
+counts_numweek <- twitter %>%
+  filter(year(date) == 2024) %>% # year 2024
+  count(numweek)
+  #
+  # Count "Thu"
+  #filter(weekday == "Thu") %>%
+  #count())
+
+# sentiment (pos/neg/neut) per date
+
+# Plot 
+
+ggplot(counts_date, aes(x = date, y = n)) +
+  geom_point() +
+  labs(title = "Observations by Date",
+       x = "Date",
+       y = "n") +
+  theme_minimal()
+
+  # mark events (time boxes)
+
 
 # deviation from avg per month (bipolar)
 
