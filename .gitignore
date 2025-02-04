@@ -11,6 +11,7 @@ _legacy/
 bahnmails/data_collect/
 bahnmails/data/
 twitterSentiment.csv
+twitterSentiment_cleaned.csv
 
 # History files
 .Rhistory
