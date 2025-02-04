@@ -17,7 +17,7 @@ colnames(twitter)
 # Cleaning
 # Drop cols
 twitter <- twitter %>% 
-    select(-User.Name) %>%
+    select(-User.Name)
     #select(timestamp)
     #filter(date != "date")
 # Write twitter to CSV
@@ -25,8 +25,8 @@ write.csv2(twitter, "case_twitter/twitterSentiment_cleaned.csv", row.names = FAL
 
 # Write shorter dataset
 twitter_short <- twitter %>%
-    slice(1:100)
-write.csv2(twitter, "case_twitter/twitterSentiment_cleaned_short.csv", row.names = FALSE)
+    slice(1:5000)
+write.csv2(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", row.names = FALSE)
 
 
 
