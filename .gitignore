@@ -8,6 +8,7 @@ TODOS-R.md
 .lintr
 .env
 _legacy/
+backup/
 bahnmails/data_collect/
 bahnmails/data/
 twitterSentiment.csv

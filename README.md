@@ -56,7 +56,7 @@ The value of the guiding literature cannot be overstated (The Grammar of Graphic
 - focus more on the *Why* of a chart,
 - make aesthetics a domain of our regular charting work in R,
 - make use of the full potential of *ggplot2* and *tidyverse*,
-- use Jupyter and GPT4.o to analyse HTML documents and output CSV tables.
+- use Jupyter and GPT4.o to analyze HTML documents and output CSV tables.
 
 Our coding lead to the creation of a side project that I will follow up on: making data from Deutsche Bahn work for me personally. It is the perfect opportunity to finally dive into talking to LLMs like GPT4 via an API and tinkering around with them in Python. Let's not get religious though, Python and R both have their very own appeal and use case, neither is going anywhere too soon...
 

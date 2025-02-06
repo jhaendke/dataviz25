@@ -6,11 +6,37 @@
 - Story: Improve spending behavior
 - no more than 5 charts
 
-# Twitter (Jan23-Nov24) -> Uhrzeit hinzufügen
+# Twitter (Jan23-Nov24)
 ## BeeSwarm
 - (user_retweets)
 - popularity(favorite_count)
 - sentiment_per_daytime > event
+
+# Content
+Nationale Sicherheitsstrategie
+Keywords:
+  - sicherheit
+  - internationale Sicherheit
+  - nationale Sicherheit
+  - cybersicherheit
+  - terrorismus
+  - kriminalität
+  - sicherheitspolitik
+  - überwachung
+  - Energiesicherheit
+  - innere Sicherheit
+  - migration
+  - #Sicherheit
+  - #Kriminalität
+  - #Terrorismus
+  - Trump
+  - NATO
+  - Israel
+  - China
+  - Desinformation
+  - Ukraine
+  - Antisemitismus
+  - Russland
   
 [1] [Jannis]
 - **sentiment_per_week**
@@ -23,10 +49,10 @@
 [2] [Sebastián]
 - topic
 - **topic_vs_sentiment**
-  - Israel (Darum?)
-  - Mannheim (Datum?)
-  - Solingen (Datum?)
-  - Ukraine
+  - Israel (2023-10-07)
+  - Mannheim (2024-05-31)
+  - Solingen (2024-08-24)
+  - Ukraine (2022-02-24)
   - Explanation:
     - Faceting pos/neg/neutr <> Topics
 
