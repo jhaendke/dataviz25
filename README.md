@@ -24,19 +24,23 @@ We decided to decipher a large dataset on **Twitter** postings on **issues of se
 
 ###### Collecting
 
-(Which topics exactly were targeted when collecting?)
+When collecting our data, we aimed to gather X (Twitter) data on security in Germany. This included tweets about inner and international security from January 2023 to November 2024.
 
-(How did we collect data)
+To collect our data, we made use of the Twikit library in Python as a free alternative to the official X API. We collected all tweets pertaining to our query per month until all data for the aforementioned time period was collected.
 
 ###### Wrangling
 
-(What did we do to the data)
+Before analyzing our data, we preprocessed our data in multiple ways. First, we anonymized all data obtained, ensuring no personal data remained on our dataset. Second, we removed all hashtags, links, and mentions, as they would interfere with our sentiment analysis. Lastly, we used the multilingual XLM-roBERTa-Base sentiment model to classify all our or tweets into three categories: positive, neutral, or negative.
 
 We aim to understand better the relationships of posts and sentiment, as well as network effects. Calculating margins and relative shares gives us a more nuanced understanding of the distribution on various issues.
 
 ###### Hypothesizing
 
-(What did we expect to find)
+After gathering our data, we expected to find insights the following insights:
+
+1. The discussion on X around security issues will mostly be negative due to the current geopolitical landscape and the recent terrorist attacks within Germany.
+2. As our data relates primarily to security issues, we expect considerable spikes in activity and negative tweets after significant events (e.g. Hamas attacks on Israel)
+3. The engagement of Tweets discussing security remains relatively low, with only a few users significantly gathering more reactions and engagement.
 
 #### Visualizing
 - line chart for time series
