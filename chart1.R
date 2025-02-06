@@ -2,7 +2,7 @@
 # getwd()
 # setwd("")
 
-# install.packages("")
+#install.packages("")
 
 # Environment
 # Sys.getenv("VAR1")
@@ -11,6 +11,7 @@
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
+library(svglite)
 #library(ggthemes)
 
 ### Dataset 2 "Twitter"
@@ -165,50 +166,172 @@ ggplot(counts_numweek23, aes(x = numweek, y = total)) +
 
 # sentiment (pos/neg/neut) per date
 
-# Plot 
 
-
+# Plot s
 
 # Time-Series Trends
 
-# all Tweets  ## TODO Histogram
-
-# "Tweet volume over time"  ## TODO schöner machen
-pvolume <- ggplot(counts_date, aes(x = date, y = total)) +
-  geom_point(color="grey30") +
+# "Post volume over time"
+pvol <- ggplot(counts_date, aes(x = date, y = total)) +
+  geom_point(color = "grey30") +
   geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
   geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "black") +
-    annotate("text", x = as.Date("2023-10-07")-10, y = 3800, 
-      label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black") +
-    annotate("text", x = as.Date("2024-05-31")-10, y = 4000, 
-      label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black") +
-    annotate("text", x = as.Date("2024-08-24")+10, y = 4300, 
-      label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black") +
-  labs(title = "Observations by Date",
-       x = "", # Date
-       y = "total") +
-  ylim(0,5000) +
-  xlim(as.Date("2022-12-24"),as.Date("2024-12-31")) +
+  annotate("text",
+    x = as.Date("2023-10-07") - 10, y = 3800,
+    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-05-31") - 10, y = 4000,
+    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-08-24") + 10, y = 4300,
+    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
+  ) +
+  labs(
+    title = "Observations by Date",
+    x = "", # Date
+    y = "total"
+  ) +
+  ylim(0, 5000) +
+  xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
   theme_light() +
-  #ggtitle("My Headline") +
+  # ggtitle("My Headline") +
   theme(
     axis.text.y = element_text(angle = 0, hjust = 1),
     plot.title = element_text(face = "bold")
-    )
+  )
 
-pvolume
-ggsave("chart1/pvolume.png", plot = pvolume, width = 10, height = 5.625, units = "in", dpi = 300)
+pvol
+ggsave("chart1/pvol.png", plot = pvol, width = 10, height = 5.625, units = "in", dpi = 300)
+ggsave("chart1/pvol.svg", plot = pvol, width = 10, height = 5.625, units = "in", dpi = 300)
+
+# Summary statistics
 
 
+# "Sentiment volume over time" (Line)
+pvolsentimentline <- ggplot(counts_date, aes(x = date, y = total)) +
+  geom_line(color = "grey90") +
+  #geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
+  geom_line(aes(y = negative), color = "#ff4444") +
+  geom_line(aes(y = positive), color = "#0084ff") +
+  geom_smooth(aes(y = negative), method = "lm", color = "black", se = FALSE, linewidth=0.5, linetype = "solid", alpha=0.5) +
+  #geom_smooth(aes(y = positive), method = "lm", color = "white", se = FALSE, linewidth=0.5, linetype = "solid", alpha=0.5) +
+  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "#00000085") +
+  annotate("text",
+    x = as.Date("2023-10-07") - 10, y = 3800,
+    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-05-31") - 10, y = 4000,
+    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-08-24") + 10, y = 4300,
+    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
+  ) +
+  labs(
+    title = "Sentiment by Date",
+    x = "", # Date
+    y = "total"
+  ) +
+  ylim(0, 5000) +
+  xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
+  theme_light() +
+  # ggtitle("My Headline") +
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1),
+    plot.title = element_text(face = "bold")
+  )
+
+pvolsentimentline
+ggsave("chart1/pvolsentimentline.png", plot = pvolsentimentline, width = 10, height = 5.625, units = "in", dpi = 300)
+ggsave("chart1/pvolsentimentline.svg", plot = pvolsentimentline, width = 10, height = 5.625, units = "in", dpi = 300)
+
+
+# "Sentiment volume over time" (Area)
+pvolsentimentarea <- ggplot(counts_date, aes(x = date)) +
+  geom_area(aes(y = total), fill = "grey90", alpha = 1) +
+  geom_area(aes(y = negative), fill = "#ff4444", alpha = 1) +
+  geom_area(aes(y = positive), fill = "#0084ff", alpha = 1) +
+  geom_smooth(aes(y = positive), method = "lm", color = "white", se = FALSE, linewidth=0.5, linetype = "dashed", alpha=0.5) +
+  geom_smooth(aes(y = negative), method = "lm", color = "black", se = FALSE, linewidth=0.5, linetype = "dashed", alpha=0.5) +
+  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "grey") +
+  annotate("text",
+    x = as.Date("2023-10-07") - 10, y = 3800,
+    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "grey"
+  ) +
+  annotate("text",
+    x = as.Date("2024-05-31") - 10, y = 4000,
+    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "grey"
+  ) +
+  annotate("text",
+    x = as.Date("2024-08-24") + 10, y = 4300,
+    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "grey"
+  ) +
+  labs(
+    title = "Sentiment by Date",
+    x = "", # Date
+    y = "Total"
+  ) +
+  ylim(0, 5000) +
+  xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
+  theme_light() +
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1),
+    plot.title = element_text(face = "bold")
+  )
+
+ggsave("chart1/pvolsentimentarea.svg", plot = pvolsentimentarea, width = 10, height = 5.625, units = "in", dpi = 300)
+ggsave("chart1/pvolsentimentarea.png", plot = pvolsentimentarea, width = 10, height = 5.625, units = "in", dpi = 300)
+
+
+
+#pvolsentimentarea <- 
+ggplot(counts_date, aes(x = date, y = total, fill = positive)) +
+  geom_area() +
+  #geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
+  #geom_line(aes(y = positive), color = "#005cb3") +
+  #geom_line(aes(y = negative), color = "#d04833") +
+  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "black") +
+  annotate("text",
+    x = as.Date("2023-10-07") - 10, y = 3800,
+    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-05-31") - 10, y = 4000,
+    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+  ) +
+  annotate("text",
+    x = as.Date("2024-08-24") + 10, y = 4300,
+    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
+  ) +
+  labs(
+    title = "Sentiment by Date",
+    x = "", # Date
+    y = "total"
+  ) +
+  ylim(0, 5000) +
+  xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
+  theme_light() +
+  # ggtitle("My Headline") +
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1),
+    plot.title = element_text(face = "bold")
+  )
+
+
+
+# Histogram
+# ...
+
+# Barplot by Month
 ggplot(counts_date, aes(x = month, y = total)) +
   geom_col() +
   labs(title = "Total Observations by Month",
        x = "Month",
        y = "Total Count") +
   theme_light()
-
-
-
   # mark events (time boxes) ## TODO einfügen
     # Israel (2023-10-07)
     # Mannheim (2024-05-31)
@@ -226,6 +349,12 @@ ggplot(counts_date, aes(x = date, y = n)) +
 # Engagement Analysis
 # "Engagement by sentiment"
 # "Engagement correlation"
+
+# Treemap
+# count per user_id
+# count reactions by user_id
+
+
 
 # Text Analysis
 # Word Frequencies
