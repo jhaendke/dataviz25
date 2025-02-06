@@ -27,6 +27,12 @@ twitter <- twitter %>%
     #slice(1:1000)
     #filter()
 
+# Drop spam users
+view(twitter %>% 
+  filter(grepl("thiago neuza", user, ignore.case = TRUE)))
+twitter <- twitter %>% 
+  filter(!grepl("thiago neuza", user, ignore.case = TRUE))
+
 # Anonymize usernames
 # Alternatively: Fake Names library(randomNames) -> randomNames(692) 
 unique_user <- unique(twitter$user)
@@ -64,6 +70,7 @@ twitter_short <- twitter %>%
     slice(1:9000)
 write.csv2(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", row.names = FALSE)
 
+
 ### Analysis
 
 twitter <- twitter_long
@@ -90,19 +97,52 @@ max(twitter$date) # latest: 2024-11-28
 # observations per [..]
 counts_date <- twitter %>%
   group_by(date) %>%
-  summarise(n = n())
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    )
 
 counts_weekday <- twitter %>%
   group_by(weekday) %>%
-  summarise(n = n())
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    )
 
-counts_month <- twitter %>%
+counts_mont23 <- twitter %>%
+  filter(year(date) == 2023) %>% # year
   group_by(month) %>%
-  summarise(n = n())
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    )
 
-counts_numweek <- twitter %>%
-  filter(year(date) == 2024) %>% # year 2024
-  count(numweek)
+counts_numweek23 <- twitter %>%
+  filter(year(date) == 2023) %>% # year
+  group_by(numweek) %>%
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    )
+
+ggplot(counts_numweek23 %>% 
+        #filter(year(date) == 2023), 
+        aes(x = numweek, y = total)
+        ) +
+  geom_point() +
+  labs(title = "n by numweek",
+       x = "numweek",
+       y = "n") +
+  theme_minimal()
+
   #
   # Count "Thu"
   #filter(weekday == "Thu") %>%
@@ -112,6 +152,33 @@ counts_numweek <- twitter %>%
 
 # Plot 
 
+
+
+# Time-Series Trends
+
+# all Tweets  ## TODO Histogram
+ggplot(twitter, aes(x = date, y = total)) +
+  geom_point() +
+  labs(title = "Observations by Date",
+       x = "Date",
+       y = "total") +
+  theme_minimal()
+
+# "Tweet volume over time"  ## TODO schöner machen
+ggplot(counts_date, aes(x = date, y = total)) +
+  geom_point() +
+  labs(title = "Observations by Date",
+       x = "Date",
+       y = "total") +
+  theme_minimal()
+
+  # mark events (time boxes) ## TODO einfügen
+    # Israel (2023-10-07)
+    # Mannheim (2024-05-31)
+    # Solingen (2024-08-24)
+
+# "Sentiment over time"  ## TODO
+# inkl Trendline        ## TODO
 ggplot(counts_date, aes(x = date, y = n)) +
   geom_point() +
   labs(title = "Observations by Date",
@@ -119,7 +186,13 @@ ggplot(counts_date, aes(x = date, y = n)) +
        y = "n") +
   theme_minimal()
 
-  # mark events (time boxes)
+# Engagement Analysis
+# "Engagement by sentiment"
+# "Engagement correlation"
+
+# Text Analysis
+# Word Frequencies
+# "Sentiment Shifts"
 
 
 # deviation from avg per month (bipolar)
