@@ -6,12 +6,13 @@
 
 # Environment
 # Sys.getenv("VAR1")
-# rm(list = ls())  #ä clean global env
+#rm(list = ls())  #ä clean global env
 
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
 library(svglite)
+library(treemap)
 #library(ggthemes)
 
 ### Dataset 2 "Twitter"
@@ -25,6 +26,7 @@ view(head(twitter))
 # Drop & Rename cols, rows
 twitter <- twitter %>% 
     select(-X,-Negative,-Neutral,-Positive) %>%
+    mutate(post_id = row_number()) %>%
     rename(user=User.Name,text=Text,retweet=Retweet.Count,favorite=Favorite.Count,date=Date)
     #slice(1:1000)
     #filter()
@@ -46,11 +48,14 @@ twitter <- twitter %>%
 
 view(head(user_id_table))
 view(head(twitter))
+rm(user_to_id, user_id_table, unique_user)
 
 # Transform var types
 
 # date: 692 unique dates in twitter
 length(unique(twitter$date))
+# user_id: 134032 unique users
+length(unique(twitter$user_id))
 
 # sentiment: 3 levels
 twitter <- twitter %>% 
@@ -66,11 +71,11 @@ twitter$date <- as.Date(twitter$date, format = "%m/%d/%Y")
 # to memory
 twitter_long <- twitter
 # to CSV
-write.csv2(twitter, "case_twitter/twitterSentiment_cleaned.csv", row.names = FALSE)
+write.csv(twitter, "case_twitter/twitterSentiment_cleaned.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 # to shorter CSV
 twitter_short <- twitter %>%
     slice(1:9000)
-write.csv2(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", row.names = FALSE)
+write.csv(twitter_short, "case_twitter/twitterSentiment_cleaned_short.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 
 
 ### Analysis
@@ -159,15 +164,26 @@ ggplot(counts_numweek23, aes(x = numweek, y = total)) +
         x = "Week Number",
         y = "Total Count") +
   theme_minimal()
-  #
-  # Count "Thu"
-  #filter(weekday == "Thu") %>%
-  #count())
 
-# sentiment (pos/neg/neut) per date
+counts_users <- as.data.frame(twitter %>%
+  group_by(user_id) %>% # i.e. Sentiment of post agg. for unique users
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral"),
+    retweet_sum = sum(retweet), # sum retweets by others
+    favorite_sum = sum(favorite) # sum likes by others
+    )) # %>% slice(1:15)
 
+counts_users_long <- counts_users
 
-# Plot s
+length(unique(counts_users$user_id))
+length(unique(twitter$user_id))
+#test <- read.csv("./_legacy/test.csv")
+#write.csv(head(twitter), "./_legacy/test.csv", sep = ",", row.names = FALSE, col.names = TRUE)
+
+# Plots
 
 # Time-Series Trends
 
@@ -175,24 +191,28 @@ ggplot(counts_numweek23, aes(x = numweek, y = total)) +
 pvol <- ggplot(counts_date, aes(x = date, y = total)) +
   geom_point(color = "grey30") +
   geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
+  
   geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "black") +
+  
   annotate("text",
     x = as.Date("2023-10-07") - 10, y = 3800,
     label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black"
   ) +
   annotate("text",
     x = as.Date("2024-05-31") - 10, y = 4000,
-    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+    label = "Attack Mannheim\n31.05.24", angle = 0, vjust = 0, hjust = 1, color = "black"
   ) +
   annotate("text",
     x = as.Date("2024-08-24") + 10, y = 4300,
     label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
   ) +
+
   labs(
     title = "Observations by Date",
     x = "", # Date
-    y = "total"
+    y = ""
   ) +
+
   ylim(0, 5000) +
   xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
   theme_light() +
@@ -210,13 +230,16 @@ ggsave("chart1/pvol.svg", plot = pvol, width = 10, height = 5.625, units = "in",
 
 
 # "Sentiment volume over time" (Line)
-pvolsentimentline <- ggplot(counts_date, aes(x = date, y = total)) +
-  geom_line(color = "grey90") +
-  #geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
-  geom_line(aes(y = negative), color = "#ff4444") +
-  geom_line(aes(y = positive), color = "#0084ff") +
+pvolsentimentline <- ggplot(counts_date, aes(x = date)) +
+  geom_line(aes(y = total, color = "Neutral")) +  
+  geom_line(aes(y = negative, color = "Negative")) +
+  geom_line(aes(y = positive, color = "Positive")) +
+  #geom_line(color = "grey90") +
+  #geom_line(aes(y = negative), color = "#ff4444") +
+  #geom_line(aes(y = positive), color = "#0084ff") +
   geom_smooth(aes(y = negative), method = "lm", color = "black", se = FALSE, linewidth=0.5, linetype = "solid", alpha=0.5) +
   #geom_smooth(aes(y = positive), method = "lm", color = "white", se = FALSE, linewidth=0.5, linetype = "solid", alpha=0.5) +
+
   geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "#00000085") +
   annotate("text",
     x = as.Date("2023-10-07") - 10, y = 3800,
@@ -224,21 +247,25 @@ pvolsentimentline <- ggplot(counts_date, aes(x = date, y = total)) +
   ) +
   annotate("text",
     x = as.Date("2024-05-31") - 10, y = 4000,
-    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
+    label = "Attack Mannheim\n31.05.24", angle = 0, vjust = 0, hjust = 1, color = "black"
   ) +
   annotate("text",
     x = as.Date("2024-08-24") + 10, y = 4300,
     label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
   ) +
+
   labs(
     title = "Sentiment by Date",
     x = "", # Date
-    y = "total"
+    y = "", # n
+    color = ""  # Legend title
   ) +
   ylim(0, 5000) +
   xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
-  theme_light() +
+  scale_color_manual(values = c("Positive" = "#0084ff", "Negative" = "#ff4444", "Neutral" = "grey90")) +  # Custom colors
+
   # ggtitle("My Headline") +
+  theme_light() +
   theme(
     axis.text.y = element_text(angle = 0, hjust = 1),
     plot.title = element_text(face = "bold")
@@ -251,75 +278,37 @@ ggsave("chart1/pvolsentimentline.svg", plot = pvolsentimentline, width = 10, hei
 
 # "Sentiment volume over time" (Area)
 pvolsentimentarea <- ggplot(counts_date, aes(x = date)) +
-  geom_area(aes(y = total), fill = "grey90", alpha = 1) +
-  geom_area(aes(y = negative), fill = "#ff4444", alpha = 1) +
-  geom_area(aes(y = positive), fill = "#0084ff", alpha = 1) +
-  geom_smooth(aes(y = positive), method = "lm", color = "white", se = FALSE, linewidth=0.5, linetype = "dashed", alpha=0.5) +
-  geom_smooth(aes(y = negative), method = "lm", color = "black", se = FALSE, linewidth=0.5, linetype = "dashed", alpha=0.5) +
-  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "grey") +
-  annotate("text",
-    x = as.Date("2023-10-07") - 10, y = 3800,
-    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "grey"
-  ) +
-  annotate("text",
-    x = as.Date("2024-05-31") - 10, y = 4000,
-    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "grey"
-  ) +
-  annotate("text",
-    x = as.Date("2024-08-24") + 10, y = 4300,
-    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "grey"
-  ) +
+  # fill mapped inside aes() for legend
+  geom_area(aes(y = total, fill = "Neutral"), alpha = 1) +
+  geom_area(aes(y = negative, fill = "Negative"), alpha = 1) +
+  geom_area(aes(y = positive, fill = "Positive"), alpha = 1) +
+
+  geom_smooth(aes(y = positive, color = "Trend: Positive"), method = "lm", se = FALSE, linewidth = 0.5, linetype = "dashed", alpha = 0.5, show.legend = FALSE) +
+  geom_smooth(aes(y = negative, color = "Trend: Negative"), method = "lm", se = FALSE, linewidth = 0.5, linetype = "dashed", alpha = 0.5) +
+
   labs(
     title = "Sentiment by Date",
-    x = "", # Date
-    y = "Total"
+    x = "",  # Date
+    y = "", # n
+    fill = "",  # Legend for area colors
+    color = "" # Legend for trend line colors
   ) +
+
+  scale_fill_manual(values = c("Neutral" = "grey90", "Positive" = "#0084ff", "Negative" = "#ff4444")) +
+  scale_color_manual(values = c("Trend: Positive" = "white", "Trend: Negative" = "black")) +
+
   ylim(0, 5000) +
   xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
+
   theme_light() +
   theme(
     axis.text.y = element_text(angle = 0, hjust = 1),
     plot.title = element_text(face = "bold")
   )
 
+pvolsentimentarea
 ggsave("chart1/pvolsentimentarea.svg", plot = pvolsentimentarea, width = 10, height = 5.625, units = "in", dpi = 300)
 ggsave("chart1/pvolsentimentarea.png", plot = pvolsentimentarea, width = 10, height = 5.625, units = "in", dpi = 300)
-
-
-
-#pvolsentimentarea <- 
-ggplot(counts_date, aes(x = date, y = total, fill = positive)) +
-  geom_area() +
-  #geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
-  #geom_line(aes(y = positive), color = "#005cb3") +
-  #geom_line(aes(y = negative), color = "#d04833") +
-  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "black") +
-  annotate("text",
-    x = as.Date("2023-10-07") - 10, y = 3800,
-    label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black"
-  ) +
-  annotate("text",
-    x = as.Date("2024-05-31") - 10, y = 4000,
-    label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black"
-  ) +
-  annotate("text",
-    x = as.Date("2024-08-24") + 10, y = 4300,
-    label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black"
-  ) +
-  labs(
-    title = "Sentiment by Date",
-    x = "", # Date
-    y = "total"
-  ) +
-  ylim(0, 5000) +
-  xlim(as.Date("2022-12-24"), as.Date("2024-12-31")) +
-  theme_light() +
-  # ggtitle("My Headline") +
-  theme(
-    axis.text.y = element_text(angle = 0, hjust = 1),
-    plot.title = element_text(face = "bold")
-  )
-
 
 
 # Histogram
@@ -337,14 +326,6 @@ ggplot(counts_date, aes(x = month, y = total)) +
     # Mannheim (2024-05-31)
     # Solingen (2024-08-24)
 
-# "Sentiment over time"  ## TODO
-# inkl Trendline        ## TODO
-ggplot(counts_date, aes(x = date, y = n)) +
-  geom_point() +
-  labs(title = "Observations by Date",
-       x = "Date",
-       y = "n") +
-  theme_minimal()
 
 # Engagement Analysis
 # "Engagement by sentiment"
@@ -353,8 +334,39 @@ ggplot(counts_date, aes(x = date, y = n)) +
 # Treemap
 # count per user_id
 # count reactions by user_id
+# random names for users
 
+view(head(counts_users))
+write.csv(head(counts_users), "./chart1/test.csv", sep = ",", row.names = FALSE, col.names = TRUE)
 
+length(unique(twitter$user_id))
+length(unique(counts_users$user_id))
+
+counts_users <- counts_users_long
+
+counts_users <- counts_users %>%
+  arrange(desc(total)) %>%
+  slice(1:400)
+  #134032/400=0,3%
+
+# Docs: https://www.rdocumentation.org/packages/treemap/versions/2.4-4/topics/treemap
+png("chart1/ptree.png", width = 3840, height = 2160, res = 300)
+treemap(counts_users,
+        index = "user_id",  # Grouping var
+        vSize = "total",  # Size
+        vColor = "retweet_sum", # Color intensity
+        type = "value", # Colors represent numerical values
+        palette = "Reds",
+        border.col = "white",
+        title = "Users: Post volume vs Retweets (upper 0,3%)",
+        fontsize.title = 18,
+        fontsize.labels = 10,
+        title.legend = "",
+        position.legend = "right",
+        fontsize.legend = 12)
+        #fontcolor.labels = "white"
+        #align.labels = list(c("left", "top"))
+dev.off()
 
 # Text Analysis
 # Word Frequencies

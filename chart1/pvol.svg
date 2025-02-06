@@ -752,7 +752,7 @@
 <text x='302.61' y='99.64' text-anchor='end' style='font-size: 11.04px; font-family: "Arial";' textLength='68.66px' lengthAdjust='spacingAndGlyphs'>Attack Hamas</text>
 <text x='302.61' y='115.54' text-anchor='end' style='font-size: 11.04px; font-family: "Arial";' textLength='42.94px' lengthAdjust='spacingAndGlyphs'>07.10.23</text>
 <text x='498.68' y='86.90' text-anchor='end' style='font-size: 11.04px; font-family: "Arial";' textLength='85.22px' lengthAdjust='spacingAndGlyphs'>Attack Mannheim</text>
-<text x='498.68' y='102.80' text-anchor='end' style='font-size: 11.04px; font-family: "Arial";' textLength='42.94px' lengthAdjust='spacingAndGlyphs'>31.05.23</text>
+<text x='498.68' y='102.80' text-anchor='end' style='font-size: 11.04px; font-family: "Arial";' textLength='42.94px' lengthAdjust='spacingAndGlyphs'>31.05.24</text>
 <text x='585.55' y='67.79' style='font-size: 11.04px; font-family: "Arial";' textLength='76.65px' lengthAdjust='spacingAndGlyphs'>Attack Solingen</text>
 <text x='585.55' y='83.69' style='font-size: 11.04px; font-family: "Arial";' textLength='42.94px' lengthAdjust='spacingAndGlyphs'>24.08.24</text>
 <rect x='42.93' y='23.18' width='671.59' height='350.33' style='stroke-width: 1.07; stroke: #B3B3B3;' />
@@ -780,7 +780,6 @@
 <text x='382.03' y='384.74' text-anchor='middle' style='font-size: 8.80px;fill: #4D4D4D; font-family: "Arial";' textLength='32.31px' lengthAdjust='spacingAndGlyphs'>2024-01</text>
 <text x='532.60' y='384.74' text-anchor='middle' style='font-size: 8.80px;fill: #4D4D4D; font-family: "Arial";' textLength='32.31px' lengthAdjust='spacingAndGlyphs'>2024-07</text>
 <text x='684.82' y='384.74' text-anchor='middle' style='font-size: 8.80px;fill: #4D4D4D; font-family: "Arial";' textLength='32.31px' lengthAdjust='spacingAndGlyphs'>2025-01</text>
-<text transform='translate(13.36,198.34) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: "Arial";' textLength='20.80px' lengthAdjust='spacingAndGlyphs'>total</text>
 <text x='42.93' y='14.93' style='font-size: 13.20px; font-weight: bold; font-family: "Arial";' textLength='135.62px' lengthAdjust='spacingAndGlyphs'>Observations by Date</text>
 </g>
 </svg>
