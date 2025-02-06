@@ -6,6 +6,7 @@
 
 # Environment
 # Sys.getenv("VAR1")
+# rm(list = ls())  #ä clean global env
 
 library(tidyverse)
 library(ggplot2)
@@ -95,25 +96,25 @@ max(twitter$date) # latest: 2024-11-28
 
 # ) Count
 # observations per [..]
-counts_date <- twitter %>%
-  group_by(date) %>%
+counts_date <- as.data.frame(twitter %>%
+  group_by(date, month) %>%
   summarise(
     total = n(),
     positive = sum(sentiment == "positive"),
     negative = sum(sentiment == "negative"),
     neutral = sum(sentiment == "neutral")
-    )
+    ))
 
-counts_weekday <- twitter %>%
+counts_weekday <- as.data.frame(twitter %>%
   group_by(weekday) %>%
   summarise(
     total = n(),
     positive = sum(sentiment == "positive"),
     negative = sum(sentiment == "negative"),
     neutral = sum(sentiment == "neutral")
-    )
+    ))
 
-counts_mont23 <- twitter %>%
+counts_month23 <- as.data.frame(twitter %>%
   filter(year(date) == 2023) %>% # year
   group_by(month) %>%
   summarise(
@@ -121,9 +122,18 @@ counts_mont23 <- twitter %>%
     positive = sum(sentiment == "positive"),
     negative = sum(sentiment == "negative"),
     neutral = sum(sentiment == "neutral")
-    )
+    ))
+counts_month24 <- as.data.frame(twitter %>%
+  filter(year(date) == 2024) %>% # year
+  group_by(month) %>%
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    ))
 
-counts_numweek23 <- twitter %>%
+counts_numweek23 <- as.data.frame(twitter %>%
   filter(year(date) == 2023) %>% # year
   group_by(numweek) %>%
   summarise(
@@ -131,18 +141,23 @@ counts_numweek23 <- twitter %>%
     positive = sum(sentiment == "positive"),
     negative = sum(sentiment == "negative"),
     neutral = sum(sentiment == "neutral")
-    )
+    ))
+counts_numweek24 <- as.data.frame(twitter %>%
+  filter(year(date) == 2024) %>% # year
+  group_by(numweek) %>%
+  summarise(
+    total = n(),
+    positive = sum(sentiment == "positive"),
+    negative = sum(sentiment == "negative"),
+    neutral = sum(sentiment == "neutral")
+    ))
 
-ggplot(counts_numweek23 %>% 
-        #filter(year(date) == 2023), 
-        aes(x = numweek, y = total)
-        ) +
+ggplot(counts_numweek23, aes(x = numweek, y = total)) +
   geom_point() +
-  labs(title = "n by numweek",
-       x = "numweek",
-       y = "n") +
+  labs(title = "Total Counts by Week Number in 2023",
+        x = "Week Number",
+        y = "Total Count") +
   theme_minimal()
-
   #
   # Count "Thu"
   #filter(weekday == "Thu") %>%
@@ -157,20 +172,42 @@ ggplot(counts_numweek23 %>%
 # Time-Series Trends
 
 # all Tweets  ## TODO Histogram
-ggplot(twitter, aes(x = date, y = total)) +
-  geom_point() +
-  labs(title = "Observations by Date",
-       x = "Date",
-       y = "total") +
-  theme_minimal()
 
 # "Tweet volume over time"  ## TODO schöner machen
-ggplot(counts_date, aes(x = date, y = total)) +
-  geom_point() +
+pvolume <- ggplot(counts_date, aes(x = date, y = total)) +
+  geom_point(color="grey30") +
+  geom_smooth(method = "lm", se = TRUE, color = "#e7421d", fill = "lightblue", alpha = 0.6) +
+  geom_vline(xintercept = as.Date(c("2023-10-07", "2024-05-31", "2024-08-24")), linetype = "dashed", color = "black") +
+    annotate("text", x = as.Date("2023-10-07")-10, y = 3800, 
+      label = "Attack Hamas\n07.10.23", angle = 0, vjust = 0, hjust = 1, color = "black") +
+    annotate("text", x = as.Date("2024-05-31")-10, y = 4000, 
+      label = "Attack Mannheim\n31.05.23", angle = 0, vjust = 0, hjust = 1, color = "black") +
+    annotate("text", x = as.Date("2024-08-24")+10, y = 4300, 
+      label = "Attack Solingen\n24.08.24", angle = 0, vjust = 0, hjust = 0, color = "black") +
   labs(title = "Observations by Date",
-       x = "Date",
+       x = "", # Date
        y = "total") +
-  theme_minimal()
+  ylim(0,5000) +
+  xlim(as.Date("2022-12-24"),as.Date("2024-12-31")) +
+  theme_light() +
+  #ggtitle("My Headline") +
+  theme(
+    axis.text.y = element_text(angle = 0, hjust = 1),
+    plot.title = element_text(face = "bold")
+    )
+
+pvolume
+ggsave("chart1/pvolume.png", plot = pvolume, width = 10, height = 5.625, units = "in", dpi = 300)
+
+
+ggplot(counts_date, aes(x = month, y = total)) +
+  geom_col() +
+  labs(title = "Total Observations by Month",
+       x = "Month",
+       y = "Total Count") +
+  theme_light()
+
+
 
   # mark events (time boxes) ## TODO einfügen
     # Israel (2023-10-07)
