@@ -1,18 +1,17 @@
 ## World in conflict - An X (Twitter) sentiment analysis
-**Course: Data visualizations - Telling stories with R & ggplot**
-
+**Course: Data visualizations - Telling stories with R & ggplot**<br />
 Lectured by Jan Zilinsky, PhD @ Technical University of Munich[^1]
 
 Resources:
-- Wilkinson, L. (2005). The Grammar of Graphics (2nd ed.). Springer. <br /> [https://doi.org/10.1007/0-387-28695-0](https://doi.org/10.1007/0-387-28695-0 "The Grammar of Graphics (2005)")
-- Data Visualization with R and ggplot <br /> [https://zilinskyjan.github.io/DataViz/](https://zilinskyjan.github.io/DataViz/ "Course content")
+- Wilkinson, L. (2005). The Grammar of Graphics (2nd ed.). Springer. [https://doi.org/10.1007/0-387-28695-0](https://doi.org/10.1007/0-387-28695-0 "The Grammar of Graphics (2005)")
+- Data Visualization with R and ggplot [https://zilinskyjan.github.io/DataViz/](https://zilinskyjan.github.io/DataViz/ "Course content")
 
 
-#### How we got here
+### How we got here
 
 Charts don't need to be ugly. But they don't need to bend the truth either to be attractive. Being exposed to unprofessional and, at times, misleading data visualizations in journalism and on social media has become the norm for critical readers. We took this course to develop our abilities in communicating analytical insights more effectively and appropriately in our work and research activities; stay truthful to the underlying data, and present something insightful that might not have obvious before.
 
-#### What the data?
+### What the data?
 
 Deciding on a data source has, for once, been a more challenging part. Our first trial in geo-locating **Google Timeline data** (drawing heatmaps etc.) using `library(sf)`[^2] turned out less fruitful than we had hoped. Correlating time series tracking data (#quantified self) with information on the weather or spending behavior is notoriously difficult to implement and didn't show enough promise in rendering novel insights to justify going forward. If you're interested doing something similiar yourself, see [Google Takeout](https://takeout.google.com/settings/takeout "Google Takeout") and [this project](https://github.com/kurupted/google-maps-timeline-viewer "google-maps-timeline-viewer").
 
@@ -22,16 +21,14 @@ We ultimately went with analyzing a large data set on **X (Twitter) postings on 
 
 ###### Collecting
 
-We included tweets about inner and international security from January 2023 to November 2024. Find the list of queries [here](twikit_query.md "twikit_query.md").
-
-To collect our data, we made use of the [`Twikit`](https://github.com/d60/twikit "Twikit API Scraper") library[^3] in Python as a free alternative to the official X API. We collected all tweets pertaining to our query per month until all data for the aforementioned time period was collected.
+We included tweets about inner and international security from January 2023 to November 2024. Find the list of queries [`twikit_query.md`](twikit_query.md "twikit_query.md"). To collect our data, we made use of the [`Twikit`](https://github.com/d60/twikit "Twikit API Scraper") library[^3] in Python as a free alternative to the official X API. We collected all tweets pertaining to our query per month until all data for the aforementioned time period was collected.
 
 ###### Wrangling
 
 We preprocessed our data in multiple ways. 
-- First, we anonymized all data obtained, ensuring no personal data remained on our data set. 
-- Second, we removed all hashtags, links, and mentions, as they would interfere with our sentiment analysis. 
-- Lastly, we used the [`multilingual XLM-roBERTa-Base`](https://huggingface.co/cardiffnlp/twitter-xlm-roberta-base-sentiment "XLM-roBERTa-Base on Huggingface") sentiment model[^4][^5] to classify all our or tweets into three categories: positive, neutral, or negative.
+1. First, we anonymized all data obtained, ensuring no personal data remained on our data set. 
+2. Second, we removed all hashtags, links, and mentions, as they would interfere with our sentiment analysis. 
+3. Lastly, we used the [`multilingual XLM-roBERTa-Base`](https://huggingface.co/cardiffnlp/twitter-xlm-roberta-base-sentiment "XLM-roBERTa-Base on Huggingface") sentiment model[^4][^5] to classify all our or tweets into three categories: positive, neutral, or negative.
 
 We aim to understand better the relationships of posts and sentiment, network effects, and discourse intensity on select issues. Calculating margins and relative shares gives us a more nuanced understanding of the distributions.
 
@@ -43,11 +40,11 @@ After gathering our data, we expected to find:
 2. Considerable spikes in activity and negative tweets after significant events (e.g. Hamas attacks on Israel)[^8] as the data set captures primarily security issues. 
 3. Engagement with tweets on security remaining relatively low (discourse shaped most significantly by a small group).
 
-#### Our findings
+### Our findings
 
 > [!NOTE]
 > This data set is highly selective due to the specific research design. Do not generalize.
-> 
+
 > [!WARNING]
 > Results are preliminary. Please do your own calculations before publishing any insights elsewhere.
 
@@ -62,7 +59,7 @@ After gathering our data, we expected to find:
 - Engagement analytics:
   - [Post volume by user & Engagement intensity](/chart3/chart3.md)
 
-#### Learnings
+### Learnings
 
 The value of the guiding literature and thinking hard about the data-to-ink ratio cannot be overstated ("Grammar" of graphics)[^9]. We learned to
 - define a visualization's success criteria,
@@ -73,7 +70,7 @@ The value of the guiding literature and thinking hard about the data-to-ink rati
 
 --- 
 Jannis Haendke, Sebastián Aguilar (2025)<br />
-Liked our work? Drop us a message & let's chat about the next data project!
+*Liked our work? Drop us a message & let's chat about the next data project!*
 
 [^1]: Jan Zilinsky, [https://www.janzilinsky.com/](https://www.janzilinsky.com/ "janzilinsky.com")
 
