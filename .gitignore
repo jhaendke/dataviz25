@@ -8,6 +8,7 @@ TODOS-R.md
 .lintr
 .env
 _legacy/
+_private/
 backup/
 bahnmails/data_collect/
 bahnmails/data/
