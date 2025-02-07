@@ -44,12 +44,9 @@ After gathering our data, we expected to find:
 
 ![alt text](/chart1/pvolsentimentline.svg "Post volume, by positive & negative sentiment")
 
-> [!NOTE]
-> 
-
-> [!WARNING]
-> **This data set is highly selective due to the specific research design. Do not generalize.**
-> **Results are <ins>preliminary</ins>. Please do your own calculations before publishing any insights elsewhere.**
+> [!IMPORTANT]
+> **Results are <ins>preliminary</ins>. Please do your own calculations before publishing any insights elsewhere.**</br>
+> **This data set is highly selective due to the <ins>specific</ins> research design. Do not generalize.**
 
 **More charts:**
 - Macro time-series
