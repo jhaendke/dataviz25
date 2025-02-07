@@ -1,0 +1,23 @@
+## Queries for contested security topics
+- sicherheit
+- internationale Sicherheit
+- nationale Sicherheit
+- cybersicherheit
+- terrorismus
+- kriminalität
+- sicherheitspolitik
+- überwachung
+- Energiesicherheit
+- innere Sicherheit
+- migration
+- #Sicherheit
+- #Kriminalität
+- #Terrorismus
+- Trump
+- NATO
+- Israel
+- China
+- Desinformation
+- Ukraine
+- Antisemitismus
+- Russland
