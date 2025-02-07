@@ -10,8 +10,8 @@ TODOS-R.md
 _legacy/
 _private/
 backup/
-bahnmails/data_collect/
-bahnmails/data/
+case_bahn/data_collect/
+case_bahn/data/
 twitterSentiment.csv
 twitterSentiment_cleaned.csv
 
