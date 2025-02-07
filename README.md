@@ -42,11 +42,11 @@ After gathering our data, we expected to find:
 
 ### Our findings
 
-![alt text](/chart1/pvolsentimentline.svg "Post volume, by positive & negative sentiment")
-
 > [!IMPORTANT]
 > **Results are <ins>preliminary</ins>. Please do your own calculations before publishing any insights elsewhere.**</br>
 > **This data set is highly selective due to the <ins>specific</ins> research design. Do not generalize.**
+
+![alt text](/chart1/pvolsentimentline.svg "Post volume, by positive & negative sentiment")
 
 **More charts:**
 - Macro time-series
