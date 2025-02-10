@@ -1,0 +1,5 @@
+date,departure_time,departure_station,arrival_time,arrival_station,price,booking_timestamp,order_number
+date, departure_time, departure_station, arrival_time, arrival_station, price, booking_timestamp, order_number
+01/02/2025, 18:51, München Hbf, 22:52, Berlin Hbf, 18.74 EUR, 14/01/2025 22:08, 982732871065
+date, departure_time, departure_station, arrival_time, arrival_station, price, booking_timestamp, order_number
+11/02/2025, 18:51, Düsseldorf Hbf, 23:17, Berlin Hbf, 14.99 EUR, 18/01/2025 02:33, 149120693900
